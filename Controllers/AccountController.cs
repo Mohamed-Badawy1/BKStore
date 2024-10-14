@@ -103,7 +103,7 @@ namespace BKStore_MVC.Controllers
         public async Task<IActionResult> SignOut()
         {
             await signInManager.SignOutAsync();
-            return View(nameof(Login));
+            return RedirectToAction("Login");
         }
         [Authorize(Roles = "Admin")]
         public IActionResult AddAdmin()

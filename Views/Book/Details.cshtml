@@ -20,14 +20,14 @@
             <p>@Model.Description</p>
             <div class="d-flex align-items-center">
                 <label for="quantity" class="mr-2">Quantity:</label>
-                @if(Model.StockQuantity!=0){
-                    <input type="number" id="quantity" name="quantity" value="1" max="@Model.StockQuantity" min="1" class="form-control w-25">
-                }
-                else
-                {
-                    <input type="number" id="quantity" name="quantity" value="0" max="@Model.StockQuantity" min="0" class="form-control w-25">
-                }
+                <select id="quantity" name="quantity" class="form-control w-25">
+                    @for (int i = 1; i <= Model.StockQuantity; i++)
+                    {
+                        <option value="@i">@i</option>
+                    }
+                </select>
             </div>
+
             <div class="mt-3">
                 @if (Model.StockQuantity != 0)
                 {

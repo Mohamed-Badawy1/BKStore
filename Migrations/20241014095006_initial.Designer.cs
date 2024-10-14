@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BKStore_MVC.Migrations
 {
     [DbContext(typeof(BKstore_System))]
-    [Migration("20241013190048_badawy")]
-    partial class badawy
+    [Migration("20241014095006_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
