@@ -3,22 +3,95 @@
 @{
     ViewData["Title"] = "Login";
 }
+<style>
+    h1 {
+        color: lightblue;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .form-group {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        font-weight: 1100px;
+        font-size: 1.4em;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        position: relative;
+        left: 630px;
+    }
+
+    .btn-primary {
+        color: white;
+        background-color: black;
+        text-decoration: none;
+        font-size: 0.8em;
+        font-weight: 600;
+        display: inline-block;
+        padding: 0.5em 2em;
+        letter-spacing: 1px;
+        border-radius: 15px;
+        margin-bottom: 30px;
+        transition: 0.7s ease;
+        margin-right: 500px;
+        line-height: 40px;
+        margin-top: 10px;
+    }
+
+
+
+        .btn-primary:hover {
+            color: lightblue;
+            background-color: rgb(22, 22, 22);
+            transform: scale(1.1);
+        }
+
+    .register {
+        line-height: 40px;
+        display: inline-block;
+        color: white;
+        background-color: black;
+        text-decoration: none;
+        font-size: 1.1em;
+        font-weight: 600;
+        display: inline-block;
+        padding: 0.6em 0.97em;
+        letter-spacing: 1px;
+        border-radius: 15px;
+        transition: 0.7s ease;
+        margin-bottom: 10px;
+        margin-left: 20px;
+        margin-top: 10px;
+        position: relative;
+        bottom: 110px;
+        left: 1130px;
+        <!-- #endregion -->
+    }
+
+        .register:hover {
+            color: lightblue;
+            background-color: rgb(22, 22, 22);
+            transform: scale(1.1);
+        }
+
+</style>
 
 <h1>Login</h1>
 
-<hr />
+
 <div class="row">
     <div class="col-md-4">
         <form asp-action="SaveLogin">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="UserName" class="control-label"></label>
-                <input asp-for="UserName" class="form-control" />
+                <input asp-for="UserName" class="form-control" placeholder="example@gmail.com" />
                 <span asp-validation-for="UserName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
+                <input asp-for="Password" class="form-control" placeholder="Enter your password" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
@@ -27,14 +100,14 @@
                 </label>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="login" class="btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Register">Create User</a>
+    <a asp-action="Register" class="register">Register</a>
 </div>
 
 @section Scripts {
