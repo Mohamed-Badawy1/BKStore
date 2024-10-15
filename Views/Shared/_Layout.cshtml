@@ -57,6 +57,9 @@
     </style>
 </head>
 <body>
+
+
+
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
@@ -123,6 +126,11 @@
             </div>
         </nav>
     </header>
+
+
+
+
+
     <div class="sidebar" id="sidebar">
         <h2>Settings</h2>
         @if (User?.IsInRole("Admin")==true)
@@ -136,13 +144,30 @@
         <a href="/Order/GetAll">Order</a>
     </div>
     <div class="main-content">
+
+
+
+
         @RenderBody()
+
+
+
+
+
     </div>
+
+
+
     <footer class="border-top footer text-muted">
         <div class="container">
             © 2024 - BKStore_MVC - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+
+
+
+
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

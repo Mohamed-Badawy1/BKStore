@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
+    <script src="https://cdn.lordicon.com/lordicon.js"></script>
+
     <style>
         .wishlist-icon {
             left: 300px; /* Adjust this value as needed */
@@ -112,15 +114,30 @@
     </style>
 </head>
 <body>
+
+
+  
+   
+    <!--                New nav bar                     -->
+
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white bg-opacity-75 border-bottom box-shadow mb-3 rounded ">
             <div class="container-fluid">
+                
+
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+
+                <a class="navbar-brand" asp-area="" asp-controller="Book" asp-action="Index">
+                    <img src="/assets/img/logosvg.svg" style="width:60px">
+                </a>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
+                        
+                            
+                      
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
@@ -130,6 +147,8 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Book" asp-action="Index">Books</a>
                         </li>
+                   
+
                         @if (User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
@@ -145,20 +164,22 @@
 
 
                     </ul>
-                    <div class="search-bar">
+                    
+                       
+
                         <form id="searchForm" asp-action="SearchByName" asp-controller="Book" method="get" class="form-inline">
-                            <input id="searchInput" type="text" name="name" class="form-control" placeholder="Search for books" autocomplete="off" value="@ViewBag.SearchTerm" />
-                            <input type="hidden" id="selectedBookId" name="bookId" />
-                            <div id="searchDropdown" class="dropdown-menu"></div>
+                            <input id="searchInput" type="text" name="name" class="form-control me-2" placeholder="Search for books" autocomplete="off" value="@ViewBag.SearchTerm" />
                         </form>
-                    </div>
+                    
 
 
                     <div class="auth-buttons" >
                         <a href="/Book/ShowWishlist"class="wishlist-icon" >
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M19.5003 12.5717L12.0003 19.9997L4.5003 12.5717C4.00561 12.0903 3.61594 11.5117 3.35585 10.8723C3.09575 10.2329 2.97086 9.54664 2.98904 8.85662C3.00721 8.1666 3.16806 7.48782 3.46146 6.86303C3.75485 6.23823 4.17444 5.68094 4.69379 5.22627C5.21314 4.77159 5.82101 4.42938 6.47911 4.22117C7.13722 4.01296 7.83131 3.94327 8.51767 4.01649C9.20403 4.08971 9.8678 4.30425 10.4672 4.64659C11.0666 4.98894 11.5885 5.45169 12.0003 6.00569C12.4138 5.45571 12.9364 4.99701 13.5354 4.65829C14.1344 4.31958 14.7968 4.10814 15.4812 4.03721C16.1657 3.96628 16.8574 4.03739 17.5131 4.24608C18.1688 4.45477 18.7743 4.79656 19.2919 5.25005C19.8094 5.70354 20.2277 6.25897 20.5207 6.88158C20.8137 7.50419 20.975 8.18057 20.9946 8.8684C21.0142 9.55622 20.8916 10.2407 20.6344 10.8789C20.3773 11.5172 19.9912 12.0955 19.5003 12.5777" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
+                            <lord-icon src="https://cdn.lordicon.com/aydxrkfl.json"
+                                       trigger="hover"
+                                       colors="primary:#121331,secondary:#242424"
+                                       style="width:45px;height:45px">
+                            </lord-icon>
                         </a>
                     </div>
 
@@ -166,7 +187,11 @@
                         <a href="#" class="icon"><i class="fa fa-heart"></i></a>
                         <a href="#" class="icon"><i class="fa fa-user"></i></a>
                         <a href="/Book/ShowCart" class="icon">
-                            <img src="~/assets/img/shopping-cart.png" alt="Shopping Cart" style="width: 24px; height: 24px;" />
+                            <lord-icon src="https://cdn.lordicon.com/jprtoagx.json"
+                                       trigger="hover"
+                                       colors="primary:#121331,secondary:#242424"
+                                       style="width:50px;height:50px">
+                            </lord-icon>
                         </a>
                         @if (User.Identity.IsAuthenticated == false)
                         {
@@ -174,13 +199,20 @@
                             <a href="@Url.Action("Register", "Account")">Register</a>
                         }
                         <a href="/User/MyAccount/">
-                            <img src="~/assets/img/icon-5359553_1280.png" alt="My Account" style="width: 50px; height: 50px" />
+                            <lord-icon src="https://cdn.lordicon.com/kdduutaw.json"
+                                       trigger="hover"
+                                       colors="primary:#121331,secondary:#000000"
+                                       style="width:50px;height:50px">
+                            </lord-icon>
                         </a>
                  </div>
                 </div>
             </div>
         </nav>
     </header>
+
+    <!--                New nav bar                     -->
+
     <div class="sidebar" id="sidebar">
         <h2>Settings</h2>
         @if (User?.IsInRole("Admin")==true)
@@ -196,11 +228,42 @@
     <div class="main-content">
         @RenderBody()
     </div>
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            © 2024 - BKStore_MVC - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
+    <!--         footer           -->
+    <div class="container">
+        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+            <div class="col-md-4 d-flex align-items-center">
+                <a asp-area="" asp-controller="Book" asp-action="Index" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
+                    <img src="/assets/img/logosvg.svg" style="width:60px">
+                </a>
+                <span class="mb-3 mb-md-0 text-muted">© 2024 Book Store</span>
+            </div>
+
+            <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+                <li class="ms-3">
+                    <a class="text-muted" href="#">
+                        <svg class="bi" width="24" height="24">
+                            <image href="/assets/img/icons/facebook.svg" width="24" height="24" />
+                        </svg>
+                    </a>
+                </li>
+                <li class="ms-3">
+                    <a class="text-muted" href="#">
+                        <img class="bi" width="24" height="24" src="/assets/img/icons/instagram.svg" alt="logo">
+                    </a>
+                </li>
+                <li class="ms-3">
+                    <a class="text-muted" href="#">
+                        <img class="bi" width="24" height="24" src="/assets/img/icons/twitter.svg" alt="logo">
+                    </a>
+                </li>
+
+            </ul>
+        </footer>
+    </div>
+    <!--         footer           -->
+
+
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
