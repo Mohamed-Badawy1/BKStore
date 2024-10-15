@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "Add Customer";
 }
+
 <div class="container">
     <div class="row">
         <div class="col-md-6">
@@ -23,7 +24,7 @@
 
                 <div>
                     <label asp-for="GovernorateID"></label>
-                    <select asp-for="GovernorateID" asp-items="@(new SelectList(ViewData["Governoratelst"] as List<Governorate>, "Id", "Name"))" class="form-control">
+                    <select id="governorateSelect" asp-for="GovernorateID" asp-items="@(new SelectList(ViewData["Governoratelst"] as List<Governorate>, "Id", "Name"))" class="form-control" onchange="updatePaymentFees()">
                         <option value="0">-- Select option --</option>
                     </select>
                     <span asp-validation-for="GovernorateID" class="text-danger"></span>
@@ -63,8 +64,8 @@
                     <span>@(Model.TotalAmount - (decimal)Model.PaymentFees) EGP</span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <span>Shipping (Cairo & Giza)</span>
-                    <span>@ViewData["PaymentFees"]</span>
+                    <span>Shipping</span>
+                    <span id="paymentFeesDisplay">@ViewData["PaymentFees"] EGP</span></span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     <strong>Total</strong>
@@ -78,8 +79,7 @@
                     <label class="form-check-label" for="paymentOnDelivery">Cash on delivery</label>
                 </div>
             </div>
-            <div class="d-flex justify-content-end mt-3">
-            </div>
+            <div class="d-flex justify-content-end mt-3"></div>
         </div>
     </div>
 </div>
@@ -104,13 +104,28 @@
         border-color: #007bff;
     }
 </style>
+
 <script>
     function confirmSave() {
-        return confirm("Are you sure you want to make the order ?");
+        return confirm("Are you sure you want to make the order?");
+    }
+
+    function updatePaymentFees() {
+        const governorateSelect = document.getElementById('governorateSelect');
+        const paymentFeesDisplay = document.getElementById('paymentFeesDisplay');
+        const governorate = governorateSelect.options[governorateSelect.selectedIndex].text;
+
+        let paymentFees = 90;
+        if (governorate === 'Cairo' || governorate === 'Giza') {
+            paymentFees = 60;
+        }
+
+        paymentFeesDisplay.innerText = paymentFees + ' EGP';
     }
 </script>
-    @section Scripts {
-        @{
-            await Html.RenderPartialAsync("_ValidationScriptsPartial");
-        }
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+}

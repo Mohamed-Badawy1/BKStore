@@ -110,9 +110,18 @@ namespace BKStore_MVC.Controllers
         {
             var lstrole = RoleManager.Roles.ToList();
             List<string?> roles = lstrole.Select(x => x.Name).ToList();
+
+            var adminCount = userManager.GetUsersInRoleAsync("Admin").Result.Count();
+
+            if (adminCount > 0)
+            {
+                roles = new List<string> { "Delivery" };
+            }
+
             ViewData["RoleList"] = roles;
             return View("AddAdmin");
         }
+
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> SaveAdmin(RegistersRoles viewModel)
@@ -138,8 +147,20 @@ namespace BKStore_MVC.Controllers
                         await userManager.UpdateAsync(applicationUser);
                     }
 
+                    // Create a DeliveryClients entry
+                    var deliveryClient = new DeliveryClients
+                    {
+                        FullName = applicationUser.UserName,
+                        NationalID = "SampleNationalID",
+                        UserID = applicationUser.Id
+                    };
+
+                    deliveryClientRepository.Add(deliveryClient);
+                    deliveryClientRepository.Save();
+
                     return RedirectToAction("Index", "Home");
                 }
+
                 foreach (var item in result.Errors)
                 {
                     ModelState.AddModelError("", item.Description);
@@ -147,7 +168,6 @@ namespace BKStore_MVC.Controllers
             }
             return View("Register", viewModel);
         }
-
 
     }
 }

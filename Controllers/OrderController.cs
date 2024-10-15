@@ -160,6 +160,17 @@ namespace BKStore_MVC.Controllers
                 if (ticket != null)
                 {
                     var userId = ticket.Principal.FindFirstValue(ClaimTypes.NameIdentifier);
+                    var deliveryClient = deliveryClientRepository.GetByUserID(userId);
+
+                    if (deliveryClient == null)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"Delivery client not found for user ID: {userId}");
+                    }
+                    else
+                    {
+                        System.Diagnostics.Debug.WriteLine($"Delivery client found: {deliveryClient.ID}");
+                    }
+
                     order.DeliveryClientsID = deliveryClientRepository.GetByUserID(userId).ID;
                     orderRepository.Update(order);
                     orderRepository.Save();
