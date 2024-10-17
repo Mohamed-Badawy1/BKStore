@@ -3,7 +3,49 @@
 @{
     ViewData["Title"] = "Delete";
 }
+<style>
+    .btn-success {
+        color: white;
+        background-color: black;
+        text-decoration: none;
+        font-size: 1.1em;
+        font-weight: 600;
+        display: inline-block;
+        padding: 0.5375em .97em;
+        border-radius: 15px;
+        transition: 0.7s ease;
+        margin: 5px;
+    }
 
+    .btn-success:hover {
+        color: lightblue;
+        background-color: rgb(22, 22, 22);
+        transform: scale(1.1);
+    }
+
+    .btn-danger{
+        color: white;
+        text-decoration: none;
+        font-size: 1.1em;
+        font-weight: 600;
+        display: inline-block;
+        padding: 0.5375em .97em;
+        border-radius: 15px;
+        transition: 0.7s ease;
+        margin: 5px;
+    }
+
+        .btn-danger:hover{
+            
+            background-color:firebrick;
+            transform: scale(1.1);
+
+
+        }
+
+
+
+</style>
 <div>
     <h1 style="color:red">Delete</h1>
     <h2> Are You Sure You Want To Delete This Item ? </h2>
@@ -13,8 +55,8 @@
 
 
 <form asp-controller="Category" asp-action="ConfirmDelete" asp-route-id="@Model.CategoryID">
-    <input type="submit" value="Delete" class="btn btn-danger" style="color:darkred">
-    <a asp-controller="Category" asp-action="Index" class="btn btn-success"> Cancel </a>
+    <input type="submit" value="Delete" class="btn-danger" style="color:darkred">
+	<a asp-controller="Category" asp-action="Index" class="btn-success "> Cancel </a>
 
 </form>
 

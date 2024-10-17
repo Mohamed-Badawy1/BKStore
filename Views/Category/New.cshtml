@@ -3,7 +3,28 @@
 @{
     ViewData["Title"] = "New";
 }
+<style>
+    .btn-success {
+        color: white;
+        background-color: black;
+        text-decoration: none;
+        font-size: 1.1em;
+        font-weight: 600;
+        display: inline-block;
+        padding: 0.5375em .97em;
+        border-radius: 15px;
+        transition: 0.7s ease;
+        margin: 5px;
+    }
 
+        .btn-success:hover {
+            color: lightblue;
+            background-color: rgb(22, 22, 22);
+            transform: scale(1.1);
+        }
+
+
+</style>
 <h1>New Category</h1>
 
 <form asp-action="SaveNew" asp-controller="Category" method="post">
@@ -18,7 +39,7 @@
         <span asp-validation-for="Description"></span>
     </div>
 
-    <input type="submit" value="Save" class="btn btn-success">
+    <input type="submit" value="Save" class="btn-success">
 </form>
 <a asp-action="Index" asp-controller="Category">Back To List</a>
 

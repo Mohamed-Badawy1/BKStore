@@ -3,10 +3,34 @@
 @{
     ViewData["Title"] = "Index";
 }
+<style>
 
-<h1>Index</h1>
+    .btn-success{
+        color: white;
+        background-color: black;
+        text-decoration: none;
+        font-size: 1.1em;
+        font-weight: 600;
+        display: inline-block;
+        padding: 0.5375em .97em;
+        border-radius: 15px;
+        transition: 0.7s ease;
+        margin:8px;
 
-<a href="/Category/New" class="btn btn-success"> New </a>
+
+
+    }
+
+    .btn-success:hover {
+        color: lightblue;
+        background-color: rgb(22, 22, 22);
+        transform: scale(1.1);
+    }
+
+</style>
+<h1>Categories</h1>
+
+<a href="/Category/New" class="btn-success"> New </a>
 
 <table class="table table-bordered">
     <thead>
