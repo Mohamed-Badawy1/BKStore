@@ -1,59 +1,72 @@
 ﻿@model BKStore_MVC.ViewModel.OrderDetailVM
+
 @{
     ViewData["Title"] = "Details";
 }
-<div class="container">
-    <h2>Order Details</h2>
+
+<div class="container m-4 ">
+    <h2 class="text-center mb-4">Customer Details</h2>
+
     <div class="row">
         <div class="col-md-6">
-            <p><strong>Name:</strong> @Model.CustomerName</p>
-            <p><strong>Address:</strong> @Model.CustomerAddress</p>
-            <p><strong>Governorate:</strong> @Model.Governorate</p>
-            <p><strong>Nationalnumber:</strong> @Model.Nationalnumber</p>
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h4>Customer Information</h4>
+                    <p><strong>Name:</strong> @Model.CustomerName</p>
+                    <p><strong>Address:</strong> @Model.CustomerAddress</p>
+                    <p><strong>Governorate:</strong> @Model.Governorate</p>
+                    <p><strong>National Number:</strong> @Model.Nationalnumber</p>
+
+                    @if (User.IsInRole("Admin") || User.IsInRole("Delivery"))
+                    {
+                        <div class="d-flex justify-content-start mt-3">
+    
+                            <a asp-action="GetAll"  class="btn btn-primary border-0" >Back to List</a>
+                        </div>
+                    }
+                </div>
+            </div>
         </div>
+
         <div class="col-md-6">
-            <h4>Order Summary</h4>
-            <ul class="list-group">
-                @{
-                    double total = 0;
-                }
-                @foreach (var item in Model.bookCartItems)
-                {
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h4>Order Summary</h4>
+                    <ul class="list-group">
+                        @{
+                            double total = Model.bookCartItems.Sum(item => (item.Quantity ?? 0) * (item.Price ?? 0));
+                        }
 
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <span>@item.Title (@item.Quantity)</span>
-                        <span>@(item.Price * item.Quantity) EGP</span>
-                    </li>
+                        @foreach (var item in Model.bookCartItems)
+                        {
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>@item.Title (@item.Quantity)</span>
+                                <span>@(item.Price * item.Quantity) EGP</span>
+                            </li>
+                        }
 
-                    total = total + (item.Quantity ?? 0) * (item.Price ?? 0);
-                }
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <span>Subtotal</span>
-                    <span>@total EGP</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <span>Shipping (Cairo & Giza)</span>
-                    <span>50 EGP</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <strong>Total</strong>
-                    <strong>@(total + 50) EGP</strong>
-                </li>
-            </ul>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>Subtotal</span>
+                            <span>@total EGP</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>Shipping (Cairo & Giza)</span>
+                            <span>50 EGP</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong>Total</strong>
+                            <strong>@(total + 50) EGP</strong>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
-</div>
-@if (User.IsInRole("Admin") | User.IsInRole("Delivery"))
-{
-    <div>
-        @Html.ActionLink("deliver the Order", "DeliverOrder", "Order", new { CustomerName = Model.CustomerName }) |
-        <a asp-action="Index">Back to List</a>
-    </div>
-}
+
+    
+
+
 <style>
-    .container {
-        margin-top: 20px;
-    }
     .list-group-item {
         display: flex;
         justify-content: space-between;

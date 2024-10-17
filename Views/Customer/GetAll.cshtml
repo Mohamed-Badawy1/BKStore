@@ -1,55 +1,39 @@
 ﻿@model IEnumerable<BKStore_MVC.Models.Customer>
 
 @{
-    ViewData["Title"] = "GetAll";
+    ViewData["Title"] = "Customers";
 }
 
-<h1>GetAll</h1>
+<div class="container mt-4">
+    <h1 class="text-center">Customers</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table table-striped table-dark">
-    <thead >
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ID)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Address)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Phone)
-            </th>
-            
-            
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Phone)
-            </td>
-           
-            
-            <td>
-                @Html.ActionLink("Details", "Details", new { id=item.ID  }) |
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <div class="d-flex justify-content-end mb-3">
+        <a href="/Customer/AddCustomer/" class="btn btn-primary">Add Customer</a>
+    </div>
+
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.ID)</th>
+                <th>@Html.DisplayNameFor(model => model.Name)</th>
+                <th>@Html.DisplayNameFor(model => model.Address)</th>
+                <th>@Html.DisplayNameFor(model => model.Phone)</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.ID)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Address)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Phone)</td>
+                    <td>
+                        <a href="@Url.Action("Details", "Customer", new { id = item.ID })" class="btn btn-primary btn-sm">Details</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

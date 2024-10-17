@@ -1,28 +1,32 @@
 ﻿@model BKStore_MVC.ViewModel.CustomerOrderVM
+
 @{
     ViewData["Title"] = "Add Customer";
 }
 
-<div class="container">
+<div class="container mt-4">
     <div class="row">
+        <!-- Customer Information Form -->
         <div class="col-md-6">
             <form asp-action="SaveAdd" method="post" onsubmit="return confirmSave()">
-                <div>
+                <div class="form-group mb-3">
                     <label asp-for="Name"></label>
-                    <input asp-for="Name" type="text" class="form form-control" />
+                    <input asp-for="Name" type="text" class="form-control" />
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
-                <div>
+
+                <div class="form-group mb-3">
                     <label asp-for="Address"></label>
-                    <input asp-for="Address" type="text" class="form form-control" />
+                    <input asp-for="Address" type="text" class="form-control" />
                     <span asp-validation-for="Address" class="text-danger"></span>
                 </div>
-                <div>
+
+                <div class="form-group mb-3">
                     <label asp-for="Nationalnumber"></label>
-                    <input asp-for="Nationalnumber" type="text" class="form form-control" />
+                    <input asp-for="Nationalnumber" type="text" class="form-control" />
                 </div>
 
-                <div>
+                <div class="form-group mb-3">
                     <label asp-for="GovernorateID"></label>
                     <select id="governorateSelect" asp-for="GovernorateID" asp-items="@(new SelectList(ViewData["Governoratelst"] as List<Governorate>, "Id", "Name"))" class="form-control" onchange="updatePaymentFees()">
                         <option value="0">-- Select option --</option>
@@ -30,28 +34,33 @@
                     <span asp-validation-for="GovernorateID" class="text-danger"></span>
                 </div>
 
-                <div style="border-bottom:10px">
+                <div class="form-group mb-3">
                     <label asp-for="Phone"></label>
-                    <input asp-for="Phone" type="text" class="form form-control" />
+                    <input asp-for="Phone" type="text" class="form-control" />
                     <span asp-validation-for="Phone" class="text-danger"></span>
                 </div>
 
                 @foreach (var item in Model.BookItems)
                 {
-                    <div style="border-bottom:10px">
-                        <input type="hidden" name="BookItems[@Model.BookItems.IndexOf(item)].BookId" value="@item.BookId" class="form form-control" />
-                        <input type="hidden" name="BookItems[@Model.BookItems.IndexOf(item)].Quantity" value="@item.Quantity" class="form form-control" />
-                    </div>
+                    <input type="hidden" name="BookItems[@Model.BookItems.IndexOf(item)].BookId" value="@item.BookId" class="form-control" />
+                    <input type="hidden" name="BookItems[@Model.BookItems.IndexOf(item)].Quantity" value="@item.Quantity" class="form-control" />
                 }
-                <input type="hidden" name="TotalAmount" value="@Model.TotalAmount" class="form form-control" />
-                <input type="hidden" name="BookID" value="@Model.BookID" class="form form-control" />
-                <input type="hidden" name="Quantity" value="@Model.Quantity" class="form form-control" />
-                <input type="submit" value="Place Order" class="form form-control" style="color:green" />
+
+                <input type="hidden" name="TotalAmount" value="@Model.TotalAmount" class="form-control" />
+                <input type="hidden" name="BookID" value="@Model.BookID" class="form-control" />
+                <input type="hidden" name="Quantity" value="@Model.Quantity" class="form-control" />
+
+                
+                <button type="submit" class="btn btn-primary m-auto  ">Add</button>
+                <a asp-action="GetAll" class="btn btn-danger text-white m-auto " >Back to List</a>
+                
             </form>
         </div>
+
+        <!-- Order Summary -->
         <div class="col-md-6">
             <h3>Your Order</h3>
-            <ul class="list-group">
+            <ul class="list-group mb-3">
                 @foreach (var item in Model.BookItems)
                 {
                     <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -65,32 +74,33 @@
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     <span>Shipping</span>
-                    <span id="paymentFeesDisplay">@ViewData["PaymentFees"] EGP</span></span>
+                    <span id="paymentFeesDisplay">@ViewData["PaymentFees"] EGP</span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     <strong>Total</strong>
                     <strong>@(Model.TotalAmount) EGP</strong>
                 </li>
             </ul>
+
+            <!-- Payment Method -->
             <div class="mt-3">
-                <span>Payment Method:</span>
+                <label>Payment Method:</label>
                 <div class="form-check">
                     <input type="radio" class="form-check-input" id="paymentOnDelivery" name="PaymentMethod" value="OnDelivery" checked>
                     <label class="form-check-label" for="paymentOnDelivery">Cash on delivery</label>
                 </div>
             </div>
-            <div class="d-flex justify-content-end mt-3"></div>
         </div>
     </div>
+    
+
+
 </div>
 
+<!-- Styles and Script -->
 <style>
     .container {
         margin-top: 20px;
-    }
-
-    .form-group label {
-        font-weight: bold;
     }
 
     .list-group-item {
@@ -99,15 +109,16 @@
         align-items: center;
     }
 
-    .btn-primary {
-        background-color: #007bff;
-        border-color: #007bff;
+    .btn-success {
+        color: #fff;
+        background-color: #28a745;
+        border-color: #28a745;
     }
 </style>
 
 <script>
     function confirmSave() {
-        return confirm("Are you sure you want to make the order?");
+        return confirm("Are you sure you want to add the customer?");
     }
 
     function updatePaymentFees() {
@@ -125,7 +136,5 @@
 </script>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    
 }
