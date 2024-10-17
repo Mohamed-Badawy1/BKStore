@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'Nikea'; /* Ensure consistency in naming */
+    src: url('../assets/font/nikea.otf') format('opentype'); /* Correct path and format */
+}
+
+
+.font-nikea {
+    font-family: 'Nikea', sans-serif; /* Use the same font-family name */
+}

@@ -2,12 +2,17 @@
 
 @{
     ViewData["Title"] = "GetAllToAdmin";
+    Layout = "_LayoutC";
+
 }
+<div class="text-center">
+    <h1 class="mt-5 mb-5">Products</h1>
 
-<h1>GetAllToAdmin</h1>
-
+    <img src="~/assets/img/booksbanner.png" class="img-fluid " alt="Responsive image" style="filter:drop-shadow(5px)" />
+    <a class="btn btn-light shadow-lg mt-5 mb-5 btn-lg" asp-action="New">Create New</a>
+</div>
 <p>
-    <a asp-action="New">Create New</a>
+    
 </p>
 <table class="table">
     <thead>
@@ -56,9 +61,9 @@
             </td>
 
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.BookID }) |
-                    @Html.ActionLink("Details", "DetailedBookForAdmin", new { id=item.BookID  }) |
-                    @Html.ActionLink("Delete", "Delete", new {  id=item.BookID  })
+                    @Html.ActionLink("Edit", "Edit", new { id = item.BookID }, new { @class = "btn btn-warning" })
+                    @Html.ActionLink("Details", "DetailedBookForAdmin", new { id = item.BookID }, new { @class = "btn btn-primary" })
+                    @Html.ActionLink("Delete", "Delete", new { id = item.BookID }, new { @class = "btn btn-danger" })
             </td>
         </tr>
 }

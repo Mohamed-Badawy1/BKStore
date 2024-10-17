@@ -13,7 +13,34 @@
         @TempData["OrderSuccessMessage"]
     </div>
 }
+<!--override main.contant for background video-->
 <style>
+    .montserrat-font{
+        font-family: "Montserrat", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 800;
+        font-style: normal;
+    }
+  
+    .newfont{
+        font-family: 'Nikea', sans-serif;
+        font-size: 40px;
+    }
+
+    .newfont-small {
+        font-family: 'Nikea', sans-serif;
+        font-size: 20px;
+    }
+    .main-content{
+        margin:0;
+        padding:0;
+    }
+
+    .main-content2 {
+        margin-left: 20px; /* Adjust based on sidebar width */
+        padding: 20px;
+        z-index: 1; /* Ensure main content is below the sidebar */
+    }
     .alert-success {
         padding: 15px;
         background-color: #4CAF50;
@@ -32,32 +59,81 @@
     }, 6000); // 6 seconds
 </script>
 
-
-<div class="bg-video-container">
-    <video autoplay muted loop id="bg-video">
-        <source src="your-video-file.mp4" type="video/mp4">
+<div id="background-video" class="video-container">
+    <video autoplay muted id="bg-video">
+        <source src="/assets/video/v5.mp4" type="video/mp4">
         Your browser does not support the video tag.
     </video>
-    <div class="content">
-        <!-- Your content goes here -->
-        <h1 class="text-white">Welcome to My Website</h1>
+    <!-- Overlay Content -->
+    <div class="overlay-content">
+        <h1 class="text-dark h1 p-1 me-md-3 montserrat-font" style="font-size:60px">
+            Welcome To
+            <br/>Book Store</h1>
+        <a href="#shop-scroll">
+            <button style="font-size:35px" class=" text-dark rounded-1 montserrat-font bg-white bg-opacity-75">Shop Now</button>
+        </a>
+
     </div>
 </div>
 
+<style>
+    .video-container {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .overlay-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: black; 
+        text-align: left;
+        width: 100%; 
+        padding: 220px; 
+    }
+
+    h1 {
+        font-size: 3em;
+        margin-bottom: 20px;
+    }
+
+    button {
+        padding: 10px 20px;
+        font-size: 1.5em;
+        background-color: rgba(255, 255, 255, 0.7);
+        border: none;
+        cursor: pointer;
+    }
+</style>
+
+</style>
+<!--Video style-->
 
 
+<div class="main-content2 mt-5 pt-5">
 
 <div class="container">
     <div class="row">
-        <div class="col-md-3">
+            <div class="col-md-3 pl-3 pr-3">
             <h3 class="font-weight-bold h3 text-dark">Categories</h3>
+                <!--                    done                                -->
+
             <ul class="list-group">
                 @if (Model.categories != null)
                 {
                     @foreach (var category in Model.categories)
                     {
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <a href="/Book/GetBooksCategory/@category.CategoryID" class="text-decoration-none">@category.Name</a>
+                            <a href="/Book/GetBooksCategory/@category.CategoryID" class="text-decoration-none text-dark">@category.Name</a>
                             <span class="badge badge-primary badge-pill">@category.Book?.Count</span>
                         </li>
                     }
@@ -71,7 +147,7 @@
         <div class="col-md-9">
             <h3 class="h3">Books</h3>
             <div class="row">
-                <div class="col-md-12 mb-3 d-flex justify-content-end">
+                <div class="col-md-12 mb-3 d-flex  justify-content-end">
                     <select id="sortOrder" class="form-control custom-dropdown" onchange="saveSelectionAndRedirect()">
                         <option value="@Url.Action("Index", new { sortOrder = "" })">Sort by Publish Date</option>
                         <option value="@Url.Action("Index", new { sortOrder = "date_desc" })">Sort by Publish Date (Desc)</option>
@@ -89,14 +165,14 @@
                                     <img src="~/assets/img/@book.ImagePath" class="card-img-top book-image" alt="@book.Title" data-url="@Url.Action("Details", "Book", new { Bookid = book.BookID })">
                                     <form action="/Book/AddToWishlist" onsubmit="return showAlert()"  method="post">
                                         <input type="hidden" name="bookId" value="@book.BookID" />
-                                        <button type="submit" class="icon wishlist1-icon">
+                                            <button type="submit" class="icon wishlist1-icon rounded">
                                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M19.5003 12.5717L12.0003 19.9997L4.5003 12.5717C4.00561 12.0903 3.61594 11.5117 3.35585 10.8723C3.09575 10.2329 2.97086 9.54664 2.98904 8.85662C3.00721 8.1666 3.16806 7.48782 3.46146 6.86303C3.75485 6.23823 4.17444 5.68094 4.69379 5.22627C5.21314 4.77159 5.82101 4.42938 6.47911 4.22117C7.13722 4.01296 7.83131 3.94327 8.51767 4.01649C9.20403 4.08971 9.8678 4.30425 10.4672 4.64659C11.0666 4.98894 11.5885 5.45169 12.0003 6.00569C12.4138 5.45571 12.9364 4.99701 13.5354 4.65829C14.1344 4.31958 14.7968 4.10814 15.4812 4.03721C16.1657 3.96628 16.8574 4.03739 17.5131 4.24608C18.1688 4.45477 18.7743 4.79656 19.2919 5.25005C19.8094 5.70354 20.2277 6.25897 20.5207 6.88158C20.8137 7.50419 20.975 8.18057 20.9946 8.8684C21.0142 9.55622 20.8916 10.2407 20.6344 10.8789C20.3773 11.5172 19.9912 12.0955 19.5003 12.5777" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                             </svg>
                                         </button>
                                     </form>
                                 </div>
-                                <div class="card-body">
+                                <div id="shop-scroll" class="card-body">
                                     <h5 class="card-title">@book.Title</h5>
                                     <p class="card-text">Author: @book.AuthorName</p>
                                     <p class="card-text">Price: <strong>@book.Price</strong></p>
@@ -138,7 +214,7 @@
         </div>
     </div>
 </div>
-
+</div>
 <style>
     .list-group-item a:hover {
         color: #007bff;
