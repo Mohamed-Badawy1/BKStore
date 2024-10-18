@@ -11,10 +11,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-       
+
 
     <style>
-       
+
 
         html {
             scroll-behavior: smooth;
@@ -125,14 +125,14 @@
 <body>
 
 
-  
-   
+
+
     <!--                New nav bar                     -->
 
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white bg-opacity-75 border-bottom box-shadow mb-3 rounded ">
             <div class="container-fluid">
-                
+
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -144,19 +144,14 @@
                 </a>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        
-                            
-                      
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
+
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Book" asp-action="Index">Books</a>
                         </li>
-                   
+
 
                         @if (User.IsInRole("Admin"))
                         {
@@ -173,34 +168,24 @@
 
 
                     </ul>
-                    
-                       
-
-                        <form id="searchForm" asp-action="SearchByName" asp-controller="Book" method="get" class="form-inline">
-                            <input id="searchInput" type="text" name="name" class="form-control me-2" placeholder="Search for books" autocomplete="off" value="@ViewBag.SearchTerm" />
-                        </form>
-                    
 
 
-                    <div class="auth-buttons" >
-                        <a href="/Book/ShowWishlist"class="wishlist-icon" >
-                            <lord-icon src="https://cdn.lordicon.com/aydxrkfl.json"
-                                       trigger="hover"
-                                       colors="primary:#121331,secondary:#242424"
-                                       style="width:45px;height:45px">
-                            </lord-icon>
-                        </a>
-                    </div>
+
+                    <form id="searchForm" asp-action="SearchByName" asp-controller="Book" method="get" class="form-inline">
+                        <input id="searchInput" type="text" name="name" class="form-control me-2" placeholder="Search for books" autocomplete="off" value="@ViewBag.SearchTerm" />
+                    </form>
+
+
+
 
                     <div class="auth-buttons">
-                        <a href="#" class="icon"><i class="fa fa-heart"></i></a>
-                        <a href="#" class="icon"><i class="fa fa-user"></i></a>
+                        <a href="/Book/ShowWishlist" class="wishlist-icon">
+                            <img src="/assets/img/icons/heart.svg" style="width:35px;height:35px" />
+                        </a>
+
                         <a href="/Book/ShowCart" class="icon">
-                            <lord-icon src="https://cdn.lordicon.com/jprtoagx.json"
-                                       trigger="hover"
-                                       colors="primary:#121331,secondary:#242424"
-                                       style="width:50px;height:50px">
-                            </lord-icon>
+                            <img src="/assets/img/icons/basket.svg" style="width:35px;height:35px" />
+
                         </a>
                         @if (User.Identity.IsAuthenticated == false)
                         {
@@ -208,13 +193,11 @@
                             <a href="@Url.Action("Register", "Account")">Register</a>
                         }
                         <a href="/User/MyAccount/">
-                            <lord-icon src="https://cdn.lordicon.com/kdduutaw.json"
-                                       trigger="hover"
-                                       colors="primary:#121331,secondary:#000000"
-                                       style="width:50px;height:50px">
-                            </lord-icon>
+                            <img src="/assets/img/icons/profile.svg" style="width:35px;height:35px" />
+
+
                         </a>
-                 </div>
+                    </div>
                 </div>
             </div>
         </nav>
@@ -224,7 +207,7 @@
 
     <div class="sidebar" id="sidebar">
         <h2>Settings</h2>
-        @if (User?.IsInRole("Admin")==true)
+        @if (User?.IsInRole("Admin") == true)
         {
             <a href="/Book/GetAllToAdmin/">Book</a>
             <a href="/Customer/GetAll/">Customer</a>
