@@ -17,16 +17,16 @@
         font-size: 1.1em;
         font-weight: 600;
         display: inline-block;
-        padding: 0.9375em 2.97em;
+       
         letter-spacing: 1px;
         border-radius: 15px;
         margin-bottom: 30px;
         transition: 0.7s ease;
-        position: relative;
+        
         bottom:10px;
         line-height: 40px;
         margin-bottom: 100px;
-        margin-left: 850px;
+        margin-left: 710px;
     }
 
 
@@ -47,14 +47,14 @@
         align-items: center;
         text-align: center;
         position: relative;
-        left: 630px; bottom:10px;
+        left: 500px; bottom:10px;
     }
 
 
 
 </style>
 
-<h1>AddAdmin</h1>
+<h1>Add User</h1>
 
 <div class="row">
     <div class="col-md-4">
@@ -86,14 +86,15 @@
                     <option value="0">-- Select option --</option>
                 </select>
                 <span asp-validation-for="Role" class="text-danger"></span>
-            </div>
+			</div>
+            <div>
+				<input type="submit" value="ADD" class="btn btn-primary" />
+			</div>
             
         </form>
     </div>
 </div>
-<div>
-    <input type="submit" value="Login" class="btn btn-primary" />
-</div>
+
 
 
 

@@ -7,7 +7,7 @@ namespace BKStore_MVC.ViewModel
     {
         //[Unique]
         [Display(Name = "Name")]
-        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Name must contain only letters in English.")]
+        [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "Name must contain only letters in English.")]
         public string UserName { get; set; }
 
         public string Email { get; set; }
