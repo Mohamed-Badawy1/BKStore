@@ -14,75 +14,71 @@
     .form-group {
         margin-top: 10px;
         margin-bottom: 10px;
-        font-weight: 1100px;
-        font-size: 1.4em;
-        justify-content: center;
-        align-items: center;
+        font-weight: 600;
+        font-size: 1.2em;
         text-align: center;
-        position: relative;
-        left: 500px;
     }
 
     .btn-primary {
         color: white;
         background-color: black;
         text-decoration: none;
-        font-size: 0.8em;
+        font-size: 0.9em;
         font-weight: 600;
-        display: inline-block;
         padding: 0.5em 2em;
         letter-spacing: 1px;
         border-radius: 15px;
         margin-bottom: 30px;
         transition: 0.7s ease;
-        margin-right: 500px;
-        line-height: 40px;
-        margin-top: 10px;
     }
 
-
-
-        .btn-primary:hover {
-            color: lightblue;
-            background-color: rgb(22, 22, 22);
-            transform: scale(1.1);
-        }
+    .btn-primary:hover {
+        color: lightblue;
+        background-color: rgb(22, 22, 22);
+        transform: scale(1.1);
+    }
 
     .register {
         line-height: 40px;
-        display: inline-block;
         color: white;
         background-color: black;
         text-decoration: none;
         font-size: 1.1em;
         font-weight: 600;
-        display: inline-block;
-        padding: 0.6em 0.97em;
+        padding: 0.6em 1.2em;
         letter-spacing: 1px;
         border-radius: 15px;
         transition: 0.7s ease;
-        margin-bottom: 10px;
-        margin-left: 20px;
-        margin-top: 10px;
-        position: relative;
-        bottom: 110px;
-        left: 849px;
-        <!-- #endregion -->
+        margin-top: 20px;
     }
 
-        .register:hover {
-            color: lightblue;
-            background-color: rgb(22, 22, 22);
-            transform: scale(1.1);
+    .register:hover {
+        color: lightblue;
+        background-color: rgb(22, 22, 22);
+        transform: scale(1.1);
+    }
+
+    /* Media queries for responsiveness */
+    @media (max-width: 767px) {
+        .form-group {
+            font-size: 1em;
         }
 
+        .btn-primary, .register {
+            font-size: 0.8em;
+            padding: 0.4em 1.5em;
+        }
+
+        h1 {
+            font-size: 1.5em;
+        }
+    }
 </style>
 
 <h1>Login</h1>
 
-
-<div class="row">
-    <div class="col-md-4">
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4">
         <form asp-action="SaveLogin">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -92,27 +88,25 @@
             </div>
             <div class="form-group">
                 <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" placeholder="Enter your password" />
+                <input asp-for="Password" type="password" class="form-control" placeholder="Enter your password" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
+            <div class="form-group form-check text-center">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="RememberMe" /> @Html.DisplayNameFor(model => model.RememberMe)
                 </label>
             </div>
-            <div class="form-group">
-                <input type="submit" value="login" class="btn-primary" />
+            <div class="form-group text-center">
+                <input type="submit" value="Login" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
-<div>
+<div class="text-center">
     <a asp-action="Register" class="register">Register</a>
 </div>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    @await Html.PartialAsync("_ValidationScriptsPartial")
 }
