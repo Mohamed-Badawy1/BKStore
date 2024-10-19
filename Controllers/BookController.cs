@@ -468,7 +468,7 @@ namespace BKStore_MVC.Controllers
 
             // Calculate new totals
             var newSubtotal = cartItems.Sum(item => item.Price * item.Quantity);
-            var newTotal = newSubtotal + shippingMethodRepository.GetByID(1).PaymentFees; // Assuming a fixed shipping cost of 50 EGP
+            var newTotal = newSubtotal + shippingMethodRepository.GetByID(1).PaymentFees; // Assuming a fixed shipping cost of 60 EGP
 
             // Return the new totals as JSON
             return Json(new { newSubtotal, newTotal });

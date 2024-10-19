@@ -80,7 +80,7 @@
                     <span id="cart-subtotal">@Model.Where(item => item.StockQuantity>=item.Quantity).Sum(item => item.Price * item.Quantity) EGP</span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <span>Shipping (Cairo & Giza)</span>
+                    <span>Shipping</span>
                     <span>@ViewData["PaymentFees"] EGP</span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-center">

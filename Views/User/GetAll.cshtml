@@ -1,70 +1,71 @@
 ﻿@model IEnumerable<BKStore_MVC.ViewModel.UsersInfoVM>
 
 @{
-    ViewData["Title"] = "GetAll";
+    ViewData["Title"] = "Get All Users";
 }
 
-<h1>Users</h1>
+<h1 class="text-center my-4">Users</h1>
 
-
-<table class="table" style="background-color: white;">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.UserName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            
-            <th>
-                @Html.DisplayNameFor(model => model.IsLocked)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Role)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UserName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Phone)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IsLocked)
-                </td>
-                <td class="role-cell">
-                    @Html.DisplayFor(modelItem => item.Role)
-                </td>
-                <td>
-                    @if (item.IsLocked == false)
-                    {
-                        <form asp-action="LockAccount" asp-controller="User" method="post">
-                            <input type="hidden" name="ID" value="@item.UserID" />
-                            <button type="submit">Lock User</button>
-                        </form>
-                    }
-                    else
-                    {
-                        <form asp-action="UnLockAccount" asp-controller="User" method="post">
-                            <input type="hidden" name="ID" value="@item.UserID" />
-                            <button type="submit">UnLock User</button>
-                        </form>
-                    }
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="container">
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.UserName)</th>
+                    <th>@Html.DisplayNameFor(model => model.Email)</th>
+                    <th>@Html.DisplayNameFor(model => model.IsLocked)</th>
+                    <th>@Html.DisplayNameFor(model => model.Role)</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.UserName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                        <td>
+                            @if (item.IsLocked)
+                            {
+                                <span class="text-danger">Locked</span>
+                            }
+                            else
+                            {
+                                <span class="text-success">Active</span>
+                            }
+                        </td>
+                        <td class="role-cell">
+                            @if (string.IsNullOrWhiteSpace(item.Role))
+                            {
+                                @:User
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(modelItem => item.Role)
+                            }
+                        </td>
+                        <td>
+                            @if (!item.IsLocked)
+                            {
+                                <form asp-action="LockAccount" asp-controller="User" method="post" class="d-inline">
+                                    <input type="hidden" name="ID" value="@item.UserID" />
+                                    <button type="submit" class="btn btn-warning btn-sm">Lock User</button>
+                                </form>
+                            }
+                            else
+                            {
+                                <form asp-action="UnLockAccount" asp-controller="User" method="post" class="d-inline">
+                                    <input type="hidden" name="ID" value="@item.UserID" />
+                                    <button type="submit" class="btn btn-success btn-sm">UnLock User</button>
+                                </form>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {

@@ -1,71 +1,49 @@
 ﻿@model IEnumerable<BKStore_MVC.Models.Book>
 
 @{
-    ViewData["Title"] = "GetAllToAdmin";
+    ViewData["Title"] = "Get All Books";
     Layout = "_Layout";
-
 }
+
 <div class="text-center">
     <h1 class="mt-5 mb-5">Products</h1>
 
-    <img src="~/assets/img/booksbanner.png" class="img-fluid " alt="Responsive image" style="filter:drop-shadow(5px)" />
+    <img src="~/assets/img/booksbanner.png" class="img-fluid" alt="Responsive image" style="filter: drop-shadow(5px);" />
     <a class="btn btn-primary shadow-lg mt-5 mb-5 btn-lg" asp-action="New">Create New</a>
 </div>
-<p>
-    
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.BookID)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AuthorName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PublisherName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StockQuantity)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.BookID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AuthorName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PublisherName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StockQuantity)
-            </td>
 
-            <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.BookID }, new { @class = "btn btn-warning" })
-                    @Html.ActionLink("Details", "DetailedBookForAdmin", new { id = item.BookID }, new { @class = "btn btn-primary" })
-                    @Html.ActionLink("Delete", "Delete", new { id = item.BookID }, new { @class = "btn btn-danger" })
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="container">
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.BookID)</th>
+                    <th>@Html.DisplayNameFor(model => model.Title)</th>
+                    <th>@Html.DisplayNameFor(model => model.AuthorName)</th>
+                    <th>@Html.DisplayNameFor(model => model.Price)</th>
+                    <th>@Html.DisplayNameFor(model => model.PublisherName)</th>
+                    <th>@Html.DisplayNameFor(model => model.StockQuantity)</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.BookID)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                        <td>@Html.DisplayFor(modelItem => item.AuthorName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Price)</td>
+                        <td>@Html.DisplayFor(modelItem => item.PublisherName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.StockQuantity)</td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.BookID }, new { @class = "btn btn-warning" }) 
+                            @Html.ActionLink("Details", "DetailedBookForAdmin", new { id = item.BookID }, new { @class = "btn btn-primary" }) 
+                            @Html.ActionLink("Delete", "Delete", new { id = item.BookID }, new { @class = "btn btn-danger" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
