@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "DetailedBookForAdmin";
+    Layout = "_LayoutC";
 }
 
 <h1>DetailedBookForAdmin</h1>
@@ -83,8 +84,4 @@
             @Html.DisplayFor(model => model.discount)
         </dd>
     </dl>
-</div>
-<div>
-    @Html.ActionLink("Edit", "Edit", new {  id = Model.BookID }) |
-    <a asp-action="Index">Back to List</a>
 </div>

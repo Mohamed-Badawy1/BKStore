@@ -43,8 +43,7 @@
 @if (User.IsInRole("Admin") | User.IsInRole("Delivery"))
                         {
 <div>
-        @Html.ActionLink("deliver the Order", "DeliverOrder", "Order", new { orderID = Model.OrderID }) |
-    <a asp-action="Index">Back to List</a>
+        <a class="btn btn-primary" href="/Order/GetAll">Back to List</a>
 </div>
                         }
 <style>

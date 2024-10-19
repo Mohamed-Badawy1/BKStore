@@ -4,11 +4,8 @@
     ViewData["Title"] = "GetAll";
 }
 
-<h1>GetAll</h1>
+<h1>Orders</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -65,7 +62,7 @@
                 }
                 <td>
 
-                    @Html.ActionLink("Details", "DetailedOrder", "Order", new { OrderId = item.OrderId }, null)
+                    @Html.ActionLink("Details", "DetailedOrder", "Order", new { OrderId = item.OrderId }, new { @class = "btn btn-primary" })
 
                 </td>
                 @if (User.IsInRole("Delivery"))

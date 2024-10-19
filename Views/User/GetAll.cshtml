@@ -4,7 +4,7 @@
     ViewData["Title"] = "GetAll";
 }
 
-<h1>GetAll</h1>
+<h1>Users</h1>
 
 <p>
     <a asp-controller="Account" asp-action="AddAdmin">Create New</a>
@@ -31,24 +31,25 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Phone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsLocked)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Role)
-            </td>
-            <td>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Phone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsLocked)
+                </td>
+                <td class="role-cell">
+                    @Html.DisplayFor(modelItem => item.Role)
+                </td>
+                <td>
                     @if (item.IsLocked == false)
                     {
                         <form asp-action="LockAccount" asp-controller="User" method="post">
@@ -63,8 +64,20 @@
                             <button type="submit">UnLock User</button>
                         </form>
                     }
-            </td>
-        </tr>
-}
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const roleCells = document.querySelectorAll('.role-cell');
+
+        roleCells.forEach(function (cell) {
+            if (!cell.textContent.trim()) {
+                cell.textContent = 'User'; // Set 'User' if Role is empty
+            }
+        });
+    });
+</script>

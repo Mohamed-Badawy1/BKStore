@@ -52,7 +52,7 @@ namespace BKStore_MVC.Controllers
                     if (userManager.Users.Count() < 2)
                         await userManager.AddToRoleAsync(applicationUser, "Admin");
                     await signInManager.SignInAsync(applicationUser, false);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Book");//fix the home
                 }
                 foreach (var item in result.Errors)
                 {
@@ -82,7 +82,7 @@ namespace BKStore_MVC.Controllers
                         if (found == true)
                         {
                             await signInManager.SignInAsync(appuser, loginBS.RememberMe);
-                            return RedirectToAction("Index", "Home");
+                            return RedirectToAction("Index", "Book");
                         }
                     }
                     else
@@ -158,7 +158,7 @@ namespace BKStore_MVC.Controllers
                     deliveryClientRepository.Add(deliveryClient);
                     deliveryClientRepository.Save();
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Book");
                 }
 
                 foreach (var item in result.Errors)

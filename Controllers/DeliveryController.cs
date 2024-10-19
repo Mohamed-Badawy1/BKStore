@@ -84,7 +84,7 @@ namespace BKStore_MVC.Controllers
                 deliveryClients.UserID = appuser.Id;
                 deliveryClientRepository.Add(deliveryClients);
                 deliveryClientRepository.Save();
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Book");
             }
             return View(nameof(AddDelivery), deliveryVM);
         }
