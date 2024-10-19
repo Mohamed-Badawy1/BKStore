@@ -14,14 +14,17 @@
         <div class="col-md-6">
             <h4>Order Summary</h4>
             <ul class="list-group">
-                @{double total = 0;}
-                @foreach (var item in Model.bookCartItems){
+                @{
+                    double total = 0;
+                }
+                @foreach (var item in Model.bookCartItems)
+                {
 
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <span>@item.Title (@item.Quantity)</span>
-                    <span>@(item.Price * item.Quantity) EGP</span>
-                </li>
-                    
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>@item.Title (@item.Quantity)</span>
+                        <span>@(item.Price * item.Quantity) EGP</span>
+                    </li>
+
                     total = total + (item.Quantity ?? 0) * (item.Price ?? 0);
                 }
                 <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -34,22 +37,30 @@
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     <strong>Total</strong>
-                    <strong>@(total + Model.PaymentFees ) EGP</strong>
+                    <strong>@(total + Model.PaymentFees) EGP</strong>
                 </li>
             </ul>
         </div>
     </div>
 </div>
-@if (User.IsInRole("Admin") | User.IsInRole("Delivery"))
-                        {
-<div>
+@if (User.IsInRole("Admin"))
+{
+    <div>
         <a class="btn btn-primary" href="/Order/GetAll">Back to List</a>
-</div>
-                        }
+    </div>
+}
+@if (User.IsInRole("Delivery"))
+{
+    <div>
+        @Html.ActionLink("deliver the Order", "DeliverOrder", "Order", new { orderID = Model.OrderID }) |
+        <a class="btn btn-primary" href="/Order/GetAll">Back to List</a>
+    </div>
+}
 <style>
     .container {
         margin-top: 20px;
     }
+
     .list-group-item {
         display: flex;
         justify-content: space-between;

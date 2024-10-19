@@ -151,7 +151,12 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Book" asp-action="Index">Books</a>
                         </li>
-
+                        @if (User.IsInRole("Delivery"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Order" asp-action="GetAll">Orders</a>
+                            </li>
+                        }
 
                         @if (User.IsInRole("Admin"))
                         {
@@ -165,6 +170,7 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="SignOut">Sign Out</a>
                             </li>
                         }
+
 
 
                     </ul>
