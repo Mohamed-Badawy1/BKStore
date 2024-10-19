@@ -209,14 +209,14 @@
         <h2>Settings</h2>
         @if (User?.IsInRole("Admin") == true)
         {
-            <a href="/Book/GetAllToAdmin/">Book</a>
-            <a href="/Customer/GetAll/">Customer</a>
-            <a href="/Delivery/GetAll/">Delivery</a>
+            <a href="/Book/GetAllToAdmin/">Manage Books</a>
+            <a href="/Customer/GetAll/">Customers</a>
+            <a href="/Delivery/GetAll/">Deliveries</a>
             <a href="/User/GetAll">Users</a>
-            <a href="/Account/AddAdmin">Add Admin&Delivery</a>
-            <a href="/Category/Index">Category</a>
+            <a href="/Account/AddAdmin">Add a Delivery</a>
+            <a href="/Category/Index">Manage Category</a>
         }
-        <a href="/Order/GetAll">Order</a>
+        <a href="/Order/GetAll">Orders</a>
     </div>
     <div class="main-content">
         @RenderBody()
@@ -300,6 +300,22 @@
                 document.getElementById('searchDropdown').classList.remove('show');
             }
         });
+        // Variable to store the last scroll position
+        let lastScrollTop = 0;
+        const sidebar = document.getElementById("sidebar");
+
+        // Function to hide or show the sidebar on scroll
+        window.addEventListener("scroll", function () {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+            // Close the sidebar if the user is scrolling down
+            if (scrollTop > lastScrollTop) {
+                sidebar.classList.remove("open-sidebar");
+            }
+
+            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // For mobile or negative scrolling
+        });
+
     </script>
 </body>
 </html>

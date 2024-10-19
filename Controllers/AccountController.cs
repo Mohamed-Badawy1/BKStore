@@ -82,6 +82,7 @@ namespace BKStore_MVC.Controllers
                         if (found == true)
                         {
                             await signInManager.SignInAsync(appuser, loginBS.RememberMe);
+                            Response.Cookies.Delete("Cart");
                             return RedirectToAction("Index", "Book");
                         }
                     }

@@ -150,25 +150,37 @@ namespace BKStore_MVC.Controllers
             {
                 if (customerOrderVM.Address != null)
                 {
-                    // Create a new Customer instance
-                    Customer customer = new Customer
+                    // Retrieve existing customer ID based on logged-in user
+                    var userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                    var existingCustomer = customerRepository.GetByUserID(userID); // Fetch existing customer by UserID
+
+                    int customerId;
+                    if (existingCustomer != null)
                     {
-                        Name = customerOrderVM.Name,
-                        Address = customerOrderVM.Address,
-                        Phone = customerOrderVM.Phone,
-                        GovernorateID = customerOrderVM.GovernorateID,
-                        Nationalnumber = customerOrderVM.Nationalnumber,
-                        // Do not set UserID to maintain uniqueness
-                    };
+                        customerId = existingCustomer.ID; // Use existing customer ID
+                    }
+                    else
+                    {
+                        // If no customer exists, create a new one (optional, based on your requirements)
+                        Customer newCustomer = new Customer
+                        {
+                            Name = customerOrderVM.Name,
+                            Address = customerOrderVM.Address,
+                            Phone = customerOrderVM.Phone,
+                            GovernorateID = customerOrderVM.GovernorateID,
+                            Nationalnumber = customerOrderVM.Nationalnumber,
+                            UserID = userID // Associate new customer with user
+                        };
 
-                    // Add the new customer to the repository
-                    customerRepository.Add(customer);
-                    customerRepository.Save(); // Save the new customer
+                        customerRepository.Add(newCustomer);
+                        customerRepository.Save();
+                        customerId = newCustomer.ID; // Get the newly created customer ID
+                    }
 
-                    // Create the order
+                    // Create the order using the existing or new customer ID
                     Order order = new Order
                     {
-                        CustomerID = customer.ID, // Use the newly created customer ID
+                        CustomerID = customerId, // Use existing customer ID
                         OrderDate = DateTime.Now,
                         DelivaryStatus = "Pending",
                         TotalAmount = (double?)customerOrderVM.TotalAmount
@@ -224,7 +236,6 @@ namespace BKStore_MVC.Controllers
             ViewData["Governoratelst"] = governorateRepository.GetAll();
             return View("AddCustomer", customerOrderVM);
         }
-
 
 
 
