@@ -143,94 +143,92 @@ namespace BKStore_MVC.Controllers
 			return View("AddCustomer", customerOrderVM);            //return RedirectToAction(nameof(ShowCart));
 
 		}
-		[HttpPost]
-		public IActionResult SaveAdd(CustomerOrderVM customerOrderVM)
-		{
-			if (ModelState.IsValid)
-			{
-				if (customerOrderVM.Address != null)
-				{
-					// Create a new Customer instance regardless of cookies
-					Customer customer = new Customer
-					{
-						Name = customerOrderVM.Name,
-						Address = customerOrderVM.Address,
-						Phone = customerOrderVM.Phone,
-						GovernorateID = customerOrderVM.GovernorateID,
-						Nationalnumber = customerOrderVM.Nationalnumber
-					};
+        [HttpPost]
+        public IActionResult SaveAdd(CustomerOrderVM customerOrderVM)
+        {
+            if (ModelState.IsValid)
+            {
+                if (customerOrderVM.Address != null)
+                {
+                    // Create a new Customer instance
+                    Customer customer = new Customer
+                    {
+                        Name = customerOrderVM.Name,
+                        Address = customerOrderVM.Address,
+                        Phone = customerOrderVM.Phone,
+                        GovernorateID = customerOrderVM.GovernorateID,
+                        Nationalnumber = customerOrderVM.Nationalnumber,
+                        // Do not set UserID to maintain uniqueness
+                    };
 
-					var userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
-					if (!string.IsNullOrEmpty(userID))
-					{
-						customer.UserID = userID;
-					}
+                    // Add the new customer to the repository
+                    customerRepository.Add(customer);
+                    customerRepository.Save(); // Save the new customer
 
-					// Add the new customer to the repository
-					customerRepository.Add(customer);
-					customerRepository.Save();
+                    // Create the order
+                    Order order = new Order
+                    {
+                        CustomerID = customer.ID, // Use the newly created customer ID
+                        OrderDate = DateTime.Now,
+                        DelivaryStatus = "Pending",
+                        TotalAmount = (double?)customerOrderVM.TotalAmount
+                    };
+                    orderRepository.Add(order);
+                    orderRepository.Save(); // Save the new order
 
-					// Create the order
-					Order order = new Order
-					{
-						CustomerID = customer.ID,
-						OrderDate = DateTime.Now,
-						DelivaryStatus = "Pending",
-						TotalAmount = (double?)customerOrderVM.TotalAmount
-					};
-					orderRepository.Add(order);
-					orderRepository.Save();
+                    // Create shipping information
+                    Random random = new Random();
+                    Shipping shipping = new Shipping()
+                    {
+                        ShippingMethodID = 1,
+                        OrderID = order.OrderId,
+                        ShippingDate = DateTime.Now,
+                        TrackingNumber = random.Next(100000, 999999)
+                    };
+                    shippingRepository.Add(shipping);
+                    shippingRepository.Save(); // Save shipping info
 
-					// Create shipping information
-					Random random = new Random();
-					Shipping shipping = new Shipping()
-					{
-						ShippingMethodID = 1,
-						OrderID = order.OrderId,
-						ShippingDate = DateTime.Now,
-						TrackingNumber = random.Next(100000, 999999)
-					};
-					shippingRepository.Add(shipping);
-					shippingRepository.Save();
+                    // Handle cart items
+                    var cartCookie = Request.Cookies["Cart"];
+                    List<BookCartItem> cartItems = !string.IsNullOrEmpty(cartCookie)
+                        ? JsonConvert.DeserializeObject<List<BookCartItem>>(cartCookie) ?? new List<BookCartItem>()
+                        : new List<BookCartItem>();
 
-					// Handle cart items
-					var cartCookie = Request.Cookies["Cart"];
-					List<BookCartItem> cartItems = cartCookie != null
-						? JsonConvert.DeserializeObject<List<BookCartItem>>(cartCookie)
-						: new List<BookCartItem>();
+                    foreach (var item in cartItems)
+                    {
+                        Book bookedit = bookRepository.GetByID(item.BookId ?? 0);
+                        if (bookedit != null)
+                        {
+                            bookedit.StockQuantity -= item.Quantity ?? 0;
+                            OrderBook orderBook = new OrderBook
+                            {
+                                BookID = item.BookId ?? 0,
+                                Quantity = item.Quantity ?? 0,
+                                TSubPrice = (item.Price * item.Quantity) ?? 0,
+                                OrderID = order.OrderId
+                            };
+                            bookRepository.Update(bookedit);
+                            orderBookRepository.Add(orderBook);
+                        }
+                    }
 
-					foreach (var item in cartItems)
-					{
-						Book bookedit = bookRepository.GetByID(item.BookId ?? 0);
-						if (bookedit != null)
-						{
-							bookedit.StockQuantity -= item.Quantity ?? 0;
-							OrderBook orderBook = new OrderBook
-							{
-								BookID = item.BookId ?? 0,
-								Quantity = item.Quantity ?? 0,
-								TSubPrice = (item.Price * item.Quantity) ?? 0,
-								OrderID = order.OrderId
-							};
-							bookRepository.Update(bookedit);
-							orderBookRepository.Add(orderBook);
-						}
-					}
+                    // Save changes and delete the cart cookie
+                    bookRepository.Save();
+                    Response.Cookies.Delete("Cart");
 
-					// Save changes and delete the cart cookie
-					bookRepository.Save();
-					Response.Cookies.Delete("Cart");
+                    TempData["OrderSuccessMessage"] = "Your order has been placed successfully!";
+                    return RedirectToAction("Index", "Book");
+                }
+            }
 
-					TempData["OrderSuccessMessage"] = "Your order has been placed successfully!";
-					return RedirectToAction("Index", "Book");
-				}
-			}
+            ViewData["Governoratelst"] = governorateRepository.GetAll();
+            return View("AddCustomer", customerOrderVM);
+        }
 
-			ViewData["Governoratelst"] = governorateRepository.GetAll();
-			return View("AddCustomer", customerOrderVM);
-		}
 
-		public IActionResult Details(int ID)
+
+
+        public IActionResult Details(int ID)
 		{
 			int OrderId;
 			int customerID = ID;

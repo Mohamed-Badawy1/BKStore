@@ -16,48 +16,73 @@
         text-decoration: none;
         font-size: 1.1em;
         font-weight: 600;
-        display: inline-block;
-        padding: 0.9375em 2.97em;
         letter-spacing: 1px;
         border-radius: 15px;
         margin-bottom: 30px;
         transition: 0.7s ease;
-        position: relative;
-        bottom:10px;
-        line-height: 40px;
-        margin-bottom: 100px;
-        margin-left: 850px;
+        margin-top: 20px;
+        display: block;
+        width: 100%;
     }
 
-
-
-        .btn-primary:hover {
-            color: lightblue;
-            background-color: rgb(22, 22, 22);
-            transform: scale(1.1);
-        }
-
+    .btn-primary:hover {
+        color: lightblue;
+        background-color: rgb(22, 22, 22);
+        transform: scale(1.1);
+    }
 
     .form-group {
         margin-top: 10px;
         margin-bottom: 10px;
-        font-weight: 1100px;
-        font-size: 1.4em;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        position: relative;
-        left: 630px; bottom:10px;
+        font-weight: 600;
+        font-size: 1.2em;
     }
 
+    /* Media queries for responsiveness */
+    @@media (max-width: 991px) {
+        .btn-primary {
+            font-size: 1em;
+        }
 
+        h1 {
+            font-size: 1.8em;
+        }
+    }
 
+    @@media (max-width: 767px) {
+        .form-group {
+            font-size: 1em;
+        }
+
+        .btn-primary {
+            font-size: 0.9em;
+        }
+
+        h1 {
+            font-size: 1.5em;
+        }
+    }
+
+    @@media (max-width: 575px) {
+        .form-group {
+            font-size: 0.9em;
+        }
+
+        .btn-primary {
+            font-size: 0.8em;
+            padding: 0.7em 1.5em;
+        }
+
+        h1 {
+            font-size: 1.3em;
+        }
+    }
 </style>
 
-<h1>AddAdmin</h1>
 
-<div class="row">
-    <div class="col-md-4">
+
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4">
         <form asp-action="SaveAdmin">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -72,33 +97,28 @@
             </div>
             <div class="form-group">
                 <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
+                <input asp-for="Password" type="password" class="form-control" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ConfirmPassword" class="control-label"></label>
-                <input asp-for="ConfirmPassword" class="form-control" />
+                <input asp-for="ConfirmPassword" type="password" class="form-control" />
                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
             </div>
-            <div class="form-group" style="margin-bottom:10px">
+            <div class="form-group">
                 <label asp-for="Role"></label>
                 <select asp-for="Role" asp-items="@(new SelectList(ViewData["RoleList"] as List<string>))" class="form-control">
                     <option value="0">-- Select option --</option>
                 </select>
                 <span asp-validation-for="Role" class="text-danger"></span>
             </div>
-            
+            <div class="text-center">
+                <input type="submit" value="ADD" class="btn btn-primary" />
+            </div>
         </form>
     </div>
 </div>
-<div>
-    <input type="submit" value="Login" class="btn btn-primary" />
-</div>
-
-
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    @await Html.PartialAsync("_ValidationScriptsPartial")
 }

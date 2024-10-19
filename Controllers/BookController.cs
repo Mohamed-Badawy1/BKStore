@@ -307,32 +307,57 @@ namespace BKStore_MVC.Controllers
         public IActionResult AddToCart(int bookId, int Quantity)
         {
             ViewData["PaymentFees"] = shippingMethodRepository.GetByID(1).PaymentFees;
-            var cookie = Request.Cookies["Cart"];
+
             List<BookCartItem> cartItems;
 
-            if (cookie != null)
+            // Check if the user is signed in
+            if (User.Identity.IsAuthenticated)
             {
-                // Deserialize the existing cookie value
-                cartItems = JsonConvert.DeserializeObject<List<BookCartItem>>(cookie) ?? new List<BookCartItem>();
+                // Retrieve the existing cookie for signed-in users
+                var cookie = Request.Cookies["Cart"];
 
-            }
-            else
-            {
-                // Initialize a new list if the cookie does not exist
-                cartItems = new List<BookCartItem>();
-            }
-            Book book = bookRepository.GetByID(bookId);
-            // Add the new item to the list
-            if (cartItems.Any(item => item.BookId == bookId))
-            {
-                BookCartItem bookCart = cartItems.Where(item => item.BookId == bookId).FirstOrDefault();
-                if (bookCart.StockQuantity >= Quantity + bookCart.Quantity)
+                if (cookie != null)
                 {
-                    bookCart.Quantity = Quantity + bookCart.Quantity;
+                    // Deserialize the existing cookie value
+                    cartItems = JsonConvert.DeserializeObject<List<BookCartItem>>(cookie) ?? new List<BookCartItem>();
                 }
                 else
                 {
-                    bookCart.Quantity = bookCart.StockQuantity;
+                    // Initialize a new list if the cookie does not exist
+                    cartItems = new List<BookCartItem>();
+                }
+            }
+            else
+            {
+                // For guests, retrieve the cookie
+                var cookie = Request.Cookies["Cart"];
+
+                if (cookie != null)
+                {
+                    // Deserialize the existing cookie value for guests
+                    cartItems = JsonConvert.DeserializeObject<List<BookCartItem>>(cookie) ?? new List<BookCartItem>();
+                }
+                else
+                {
+                    // Initialize a new list if the cookie does not exist
+                    cartItems = new List<BookCartItem>();
+                }
+            }
+
+            // Get the book details
+            Book book = bookRepository.GetByID(bookId);
+
+            // Add or update the book item in the cart
+            if (cartItems.Any(item => item.BookId == bookId))
+            {
+                BookCartItem bookCart = cartItems.First(item => item.BookId == bookId);
+                if (bookCart.StockQuantity >= Quantity + bookCart.Quantity)
+                {
+                    bookCart.Quantity += Quantity;
+                }
+                else
+                {
+                    bookCart.Quantity = bookCart.StockQuantity; // Set to max stock if exceeded
                 }
             }
             else
@@ -344,7 +369,7 @@ namespace BKStore_MVC.Controllers
                     ImagePath = book.ImagePath,
                     Title = book.Title,
                     Price = book.Price,
-                    StockQuantity = bookRepository.GetByID(bookId).StockQuantity
+                    StockQuantity = book.StockQuantity // Directly use the retrieved book's stock
                 });
             }
 
@@ -356,32 +381,58 @@ namespace BKStore_MVC.Controllers
             {
                 Expires = DateTimeOffset.Now.AddDays(7) // Set the cookie to expire in 7 days
             });
+
+            // Redirect to the cart view
             return RedirectToAction(nameof(ShowCart));
-            //return RedirectToAction(nameof(ShowCart));
         }
+
         public IActionResult ShowCart()
         {
             ViewData["PaymentFees"] = shippingMethodRepository.GetByID(1).PaymentFees;
 
-            // Retrieve the existing cookie
-            var cookie = Request.Cookies["Cart"];
             List<BookCartItem> cartItems;
 
-            if (cookie != null)
+            // Check if the user is signed in
+            if (User.Identity.IsAuthenticated)
             {
-                // Deserialize the existing cookie value
-                cartItems = JsonConvert.DeserializeObject<List<BookCartItem>>(cookie);
+                // Retrieve the existing cookie for signed-in users
+                var cookie = Request.Cookies["Cart"];
+
+                if (cookie != null)
+                {
+                    // Deserialize the existing cookie value
+                    cartItems = JsonConvert.DeserializeObject<List<BookCartItem>>(cookie);
+                }
+                else
+                {
+                    // Initialize an empty list if the cookie does not exist
+                    cartItems = new List<BookCartItem>();
+                }
             }
             else
             {
-                // Initialize an empty list if the cookie does not exist
-                cartItems = new List<BookCartItem>();
+                // For guests, retrieve the cookie
+                var cookie = Request.Cookies["Cart"];
+
+                if (cookie != null)
+                {
+                    // Deserialize the existing cookie value for guests
+                    cartItems = JsonConvert.DeserializeObject<List<BookCartItem>>(cookie);
+                }
+                else
+                {
+                    // Initialize an empty list if the cookie does not exist
+                    cartItems = new List<BookCartItem>();
+                }
             }
 
-
-            // Pass the ViewModel to the view
+            // Return the view with the cart items
             return View("Cart", cartItems);
         }
+
+
+
+
         public IActionResult RemoveFromCart(int bookId)
         {
             // Retrieve the existing cookie
