@@ -9,9 +9,7 @@
 
 <h1>GetAll</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+
 <table class="table">
     <thead>
         <tr>
@@ -27,9 +25,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.CustomerID)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DelivaryStatus)
-            </th>
+            
             @if (User.IsInRole("Admin") | User.IsInRole("Delivery"))
                         {
 
