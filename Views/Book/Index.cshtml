@@ -128,6 +128,10 @@
                 <!--                    done                                -->
 
             <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <a href="/" class="text-decoration-none text-dark">All Categories</a>
+                        <!--  <span class="badge badge-primary badge-pill">@Model.books?.Count()</span> -->
+                    </li>
                 @if (Model.categories != null)
                 {
                     @foreach (var category in Model.categories)
