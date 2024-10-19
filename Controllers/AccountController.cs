@@ -102,6 +102,8 @@ namespace BKStore_MVC.Controllers
         [Authorize]
         public async Task<IActionResult> SignOut()
         {
+            Response.Cookies.Delete("Cart");
+
             await signInManager.SignOutAsync();
             return RedirectToAction("Login");
         }
